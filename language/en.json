@@ -1,0 +1,8 @@
+{
+    "errors": {
+        "blankName": "[KynuxDB] Please give me a database name.",
+        "blankData": "[KynuxDB] Please give me a data.",
+        "blankNumber": "[KynuxDB] Please give me a number.",
+        "oldVersion": "[KynuxDB] It seems like you are using an outdated version of KynuxDB. Use 'npm update kynuxdb' to update module."
+    }
+}

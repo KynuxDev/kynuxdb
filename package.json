@@ -1,0 +1,41 @@
+{
+  "author": {
+    "name": "KynuxDev"
+  },
+  "bugs": {
+    "url": "https://github.com/KynuxDev/kynuxdb/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "database module",
+  "homepage": "https://github.com/KynuxDev/kynuxdb#readme",
+  "keywords": [
+    "croxy",
+    "croxy-api",
+    "croxyapi",
+    "kynuxdb",
+    "croxy-db",
+    "json",
+    "jsondb",
+    "yaml",
+    "yamldb",
+    "local",
+    "localstorage",
+    "local storage",
+    "node-json-db",
+    "db",
+    "mongo",
+    "mongoose",
+    "mongodb",
+    "database"
+  ],
+  "license": "MIT",
+  "main": "./file/index.js",
+  "types": "./typings/index.d.ts",
+  "name": "kynuxdb",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KynuxDev/kynuxdb.git"
+  },
+  "version": "0.0.9"
+}
