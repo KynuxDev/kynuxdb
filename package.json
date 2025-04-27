@@ -7,14 +7,12 @@
   },
   "bundleDependencies": false,
   "deprecated": false,
-  "description": "database module",
+  "description": "Çoklu adaptör destekli (JSON, YAML, MongoDB, LocalStorage) esnek ve kullanımı kolay Node.js veritabanı modülü.",
   "homepage": "https://github.com/KynuxDev/kynuxdb#readme",
   "keywords": [
-    "croxy",
-    "croxy-api",
-    "croxyapi",
     "kynuxdb",
-    "croxy-db",
+    "database",
+    "db",
     "json",
     "jsondb",
     "yaml",
@@ -32,10 +30,10 @@
   "license": "MIT",
   "main": "./file/index.js",
   "types": "./typings/index.d.ts",
-  "name": "kynuxdb",
+  "name": "@kynuxcloud/kynuxdb",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KynuxDev/kynuxdb.git"
   },
-  "version": "0.0.9"
+  "version": "1.0.0"
 }
