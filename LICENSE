@@ -1,0 +1,129 @@
+Bu proje, BERK tarafından geliştirilmiş özgün bir çalışmadır ve KynuxCloud Korumalı Geliştirici Lisansı ile korunmaktadır. Tüm hakları saklıdır.
+
+- Bu kodun kopyalanması, değiştirilmesi veya dağıtılması **KESİNLİKLE YASAKTIR**
+- Kod, otomatik izleme sistemleri ile telif ihlallerine karşı düzenli olarak taranmaktadır
+- İhlaller tespit edildiğinde, GitHub DMCA işlemleri ve yasal kovuşturma başlatılacaktır
+
+Detaylı lisans metni için aşağıyı inceleyiniz.
+
+------------------------------------------
+
+KynuxCloud Geliştirici Koruma Lisansı (KCDPL) v1.0
+Copyright © 2025 Berk ve KynuxCloud Ltd. Şti.
+TÜM HAKLARI KESIN OLARAK SAKLIDIR.
+
+------------------------------------------
+YASAL BAĞLAYICI TELİF HAKKI KORUMA LİSANSI
+------------------------------------------
+
+Bu lisans yalnızca KynuxCloud Geliştirici ekibinde bulunan kişilerin yazılımlarını korur.
+
+Bu yazılım ve ilişkili tüm dokümantasyon (bundan sonra "Yazılım" olarak anılacaktır), uluslararası ve ulusal telif hakkı yasaları, fikri mülkiyet düzenlemeleri ve anlaşmaları tarafından korunmaktadır.
+
+1. FİKRİ MÜLKİYET HAKLARI VE SAHİPLİK
+---------------------------------------
+
+1.1. Bu Yazılımın asıl ve öncelikli fikri mülkiyet hakları Berk'na ("Geliştirici") aittir.
+
+1.2. KynuxCloud Ltd. Şti., bu Yazılımın barındırılması, pazarlanması ve dağıtılması için sınırlı ve belirli haklara sahiptir.
+
+1.3. Yazılımın tüm bileşenleri - kaynak kodu, algoritmaları, mimarisi, tasarımı, dokümantasyonu ve diğer tüm öğeleri - özel olarak korunmaktadır ve açıkça yetkilendirilmediği sürece hiçbir şekilde kullanılamaz.
+
+2. KISITLAMALAR VE YASAKLAMALAR
+-------------------------------
+
+2.1. BU YAZILIMI KOPYALAMAK, DEĞİŞTİRMEK, DAĞITMAK, YAYINLAMAK, ALT LİSANSLAMAK, SATMAK VEYA BAŞKA AMAÇLARLA KULLANMAK KESİNLİKLE YASAKTIR.
+
+2.2. Yazılım üzerinde aşağıdaki eylemler açıkça yasaklanmıştır:
+   a) Tam veya kısmi kopyalama
+   b) Tersine mühendislik, kaynak koda dönüştürme veya kaynak kodunu çıkarma
+   c) Türetilmiş çalışmalar oluşturma
+   d) Üçüncü taraflara herhangi bir şekilde aktarma
+   e) İzinsiz olarak dahil etme veya entegre etme
+   f) Yazılım ve bileşenlerini başka projeler için kullanma
+   g) Yazılımın herhangi bir unsurunu Geliştirici'ye atıf yapmadan kullanma
+
+2.3. Bu kısıtlamaların herhangi birinin ihlali, doğrudan telif hakkı ihlali sayılır ve aşağıdaki bölümlerde belirtilen tüm yasal işlemleri başlatma hakkını doğurur.
+
+3. TELİF HAKKI İHLALLERİ VE UYGULAMA
+-------------------------------------------
+
+3.1. Bu Yazılım, kod ve fikir hırsızlığını tespit etmek için düzenli tarama ve izleme sistemleri ile korunmaktadır.
+
+3.2. Telif hakkı ihlali tespit edildiğinde aşağıdaki adımlar izlenecektir:
+   a) GitHub, GitLab veya ilgili platformlara resmi Telif Hakkı Takedown bildiriminin gönderilmesi
+   b) İhlali gerçekleştiren kişi veya kuruluşlara resmi ihtarname gönderilmesi
+   c) Gerekli tüm hukuki ve cezai işlemlerin başlatılması
+   d) Tazminat ve telif hakkı zararları için yasal taleplerin oluşturulması
+
+3.3. Telif hakkı bildirimi için kanıt olarak kullanılmak üzere:
+   a) Tüm geliştirme geçmişi Git commit'leri ile zaman damgalı olarak saklanmaktadır
+   b) Kod örnekleri ve algoritmalar düzenli olarak imzalanmış hash'ler ile kaydedilmektedir
+   c) Bu lisansın kendisi, yasal işlem başlatmak için yeterli kanıt niteliğindedir
+
+3.4. Her bir ihlal için, her gün ve her ihlal olay başına [TUTAR] tutarında tazminat talep etme hakkı saklıdır.
+
+4. ATIF GEREKLİLİKLERİ VE ZORUNLULUKLARI
+----------------------------------------
+
+4.1. Bu Yazılımı herhangi bir şekilde referans alan, kullanan veya gösteren her durumda, aşağıdaki atıf açıkça ve belirgin şekilde belirtilmelidir:
+
+   "Copyright © 2025 Berk. Tüm hakları saklıdır.
+   KynuxCloud Geliştirici Platformu kapsamında geliştirilmiştir.
+   İzinsiz kullanım kesinlikle yasaktır ve yasal işlem gerektirir."
+
+4.2. Bu atıf, herhangi bir şekilde gizlenemez, değiştirilemez veya kaldırılamaz.
+
+5. YASAL DAYANAK VE YETKİ BİLDİRİMİ
+-----------------------------------
+
+5.1. Bu lisans, aşağıdaki yasal düzenlemelere dayalı olarak oluşturulmuştur:
+   a) Fikir ve Sanat Eserleri Kanunu
+   b) Uluslararası Bern Sözleşmesi
+   c) WIPO Telif Hakları Anlaşması
+   d) Digital Millennium Copyright Act (DMCA)
+
+5.2. Geliştirici ve KynuxCloud, bu lisansın ihlali durumunda, ihlal edeni herhangi bir yargı bölgesinde dava etme hakkını saklı tutar.
+
+5.3. Ben Berk, bu yazılımın telif hakkı sahibi olarak, yukarıda belirtilen yasal hakları kullanma yetkisine sahip olduğumu beyan ederim.
+
+6. İLETİŞİM VE İHLAL BİLDİRİMLERİ
+--------------------------------
+
+Telif hakkı ihlallerini bildirmek, lisanslama hakkında bilgi almak veya iletişim kurmak için:
+
+Geliştirici: [GELİŞTİRİCİ E-POSTA]
+KynuxCloud Yasal Departmanı: kynuxs@hotmail.com
+Telif Hakkı Bildirimleri: https://copyright.kynux.cloud
+Web: https://kynux.cloud
+Discord: https://discord.gg/wCK5dVSY2n
+
+7. KORUNAN YAZILIM BİLEŞENLERİ
+-----------------------------
+
+Aşağıdaki bileşenler bu lisans kapsamında özel olarak korunmaktadır:
+
+a) Tüm kaynak kodu dosyaları
+b) Algoritma ve veri yapıları
+c) Mimari tasarım ve yazılım desenleri
+d) API tasarımları ve uygulamaları
+e) Kullanıcı arayüzü tasarımları ve kod bileşenleri
+f) Dokümantasyon ve teknik belgeler
+g) Geliştirme süreci sırasında oluşturulan diğer tüm yaratıcı içerikler
+
+Bu bileşenlerin herhangi birinin izinsiz kullanımı doğrudan telif hakkı ihlalidir.
+
+8. LİSANS GEÇERLİLİĞİ VE YORUMLANMASI
+------------------------------------
+
+8.1. Bu lisans, tüm içeriğiyle bir bütün olarak değerlendirilir. Herhangi bir maddesinin geçersiz sayılması, diğer maddelerin geçerliliğini etkilemez.
+
+8.2. Bu lisansın herhangi bir kısmı hakkında belirsizlik olması durumunda, her zaman telif hakkı sahibini en geniş şekilde koruyacak şekilde yorumlanır.
+
+8.3. Bu lisans, herhangi bir yazılı değişiklik veya ek anlaşma olmadıkça değiştirilemez veya iptal edilemez.
+
+8.4. Bu lisans, yalnızca KynuxCloud Geliştirici ekibinde bulunan kişilerin yazılımlarını korur ve bu kapsam dışında kalan tüm durumlarda geçersiz sayılır.
+
+8.5. Bu lisans, KynuxCloud Geliştirici ekibinin yazılı onayı olmadan devredilemez veya başkasına aktarılamaz.
+
+8.6. Bu lisans, yalnızca KynuxCloud Geliştirici ekibinin yazılı onayı ile değiştirilebilir veya iptal edilebilir.
