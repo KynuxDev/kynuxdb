@@ -134,9 +134,8 @@ const KynuxDB_API = {
         if (adapterName === "mongo") {
             try {
                 require("mongoose");
-                require("deasync");
             } catch (error) {
-                throw new TypeError(`KynuxDB Error: To use the 'mongo' adapter, you must install "mongoose" and "deasync" modules. Run 'npm install mongoose deasync'.`);
+                throw new TypeError(`KynuxDB Error: To use the 'mongo' adapter, you must install the "mongoose" module. Run 'npm install mongoose'.`);
             }
             _isMongoActive = true;
             _mongoConnectionDetails = adapterOptions;
@@ -184,24 +183,24 @@ const KynuxDB_API = {
         return _autoPruneEmptyObjects;
     },
 
-    set(key, value) {
+    async set(key, value) {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
         if (!key) throw new TypeError(_localeMessages?.errors?.blankName || "Key is required.");
         try {
-             return _currentAdapterInstance.set(key, value);
+             return await _currentAdapterInstance.set(key, value);
         } catch (e) {
-            console.error(`KynuxDB Error in adapter set: ${e}`);
+            console.error(`KynuxDB Error during set operation for key "${key}":`, e);
             throw e;
         }
     },
 
-    get(key) {
+    async get(key) {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
         if (!key) throw new TypeError(_localeMessages?.errors?.blankName || "Key is required.");
          try {
-            return _currentAdapterInstance.get(key);
+            return await _currentAdapterInstance.get(key);
          } catch (e) {
-             console.error(`KynuxDB Error in adapter get: ${e}`);
+             console.error(`KynuxDB Error during get operation for key "${key}":`, e);
              return undefined;
          }
     },
@@ -210,81 +209,76 @@ const KynuxDB_API = {
         return this.get(key);
     },
 
-    has(key) {
+    async has(key) {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
         if (!key) throw new TypeError(_localeMessages?.errors?.blankName || "Key is required.");
          try {
-             if (typeof _currentAdapterInstance.has === 'function') {
-                return _currentAdapterInstance.has(key);
-             } else {
-                return this.get(key) !== undefined;
-             }
+             return await _currentAdapterInstance.has(key);
          } catch (e) {
-            console.error(`KynuxDB Error in adapter has: ${e}`);
+            console.error(`KynuxDB Error during has operation for key "${key}":`, e);
             return false;
          }
     },
 
-    delete(key) {
+    async delete(key) {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
         if (!key) throw new TypeError(_localeMessages?.errors?.blankName || "Key is required.");
         try {
-            return _currentAdapterInstance.delete(key);
+            return await _currentAdapterInstance.delete(key);
         } catch (e) {
-            console.error(`KynuxDB Error in adapter delete: ${e}`);
+            console.error(`KynuxDB Error during delete operation for key "${key}":`, e);
             return false;
         }
     },
 
-    add(key, amount) {
+    async add(key, amount) {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
         if (!key) throw new TypeError(_localeMessages?.errors?.blankName || "Key is required.");
         if (typeof amount !== 'number' || isNaN(amount)) throw new TypeError(_localeMessages?.errors?.blankNumber || "Amount must be a number.");
         try {
-            return _currentAdapterInstance.add(key, amount);
+            return await _currentAdapterInstance.add(key, amount);
         } catch (e) {
-             console.error(`KynuxDB Error in adapter add: ${e}`);
+             console.error(`KynuxDB Error during add operation for key "${key}":`, e);
              throw e;
         }
     },
 
-    subtract(key, amount) {
+    async subtract(key, amount) {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
         if (!key) throw new TypeError(_localeMessages?.errors?.blankName || "Key is required.");
         if (typeof amount !== 'number' || isNaN(amount)) throw new TypeError(_localeMessages?.errors?.blankNumber || "Amount must be a number.");
 
         try {
-            const subtractFn = _currentAdapterInstance.subtract || ((k, a) => _currentAdapterInstance.add(k, -a));
-            return subtractFn.call(_currentAdapterInstance, key, amount);
+            return await _currentAdapterInstance.subtract(key, amount);
         } catch (e) {
-            console.error(`KynuxDB Error in adapter subtract: ${e}`);
+            console.error(`KynuxDB Error during subtract operation for key "${key}":`, e);
             throw e;
         }
     },
 
-    push(key, element) {
+    async push(key, element) {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
         if (!key) throw new TypeError(_localeMessages?.errors?.blankName || "Key is required.");
         try {
-            return _currentAdapterInstance.push(key, element);
+            return await _currentAdapterInstance.push(key, element);
         } catch (e) {
-             console.error(`KynuxDB Error in adapter push: ${e}`);
+             console.error(`KynuxDB Error during push operation for key "${key}":`, e);
              throw e;
         }
     },
 
-    unpush(key, elementToRemove) {
+    async unpush(key, elementToRemove) {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
         if (!key) throw new TypeError(_localeMessages?.errors?.blankName || "Key is required.");
         try {
-            return _currentAdapterInstance.unpush(key, elementToRemove);
+            return await _currentAdapterInstance.unpush(key, elementToRemove);
         } catch (e) {
-             console.error(`KynuxDB Error in adapter unpush: ${e}`);
+             console.error(`KynuxDB Error during unpush operation for key "${key}":`, e);
              throw e;
         }
     },
 
-    delByPriority(key, index) {
+    async delByPriority(key, index) {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
         const isInvalidKey = !key;
         const isInvalidIndex = typeof index !== 'number' || isNaN(index) || index < 1;
@@ -293,18 +287,14 @@ const KynuxDB_API = {
         if (isInvalidIndex) throw new TypeError(_localeMessages?.errors?.blankNumber || "Index must be a positive number.");
 
         try {
-            if (typeof _currentAdapterInstance.delByPriority !== 'function') {
-                 console.warn(`KynuxDB Warning: Adapter does not support delByPriority.`);
-                 return false;
-            }
-            return _currentAdapterInstance.delByPriority(key, index);
+            return await _currentAdapterInstance.delByPriority(key, index);
         } catch (e) {
-            console.error(`KynuxDB Error in adapter delByPriority: ${e}`);
+            console.error(`KynuxDB Error during delByPriority operation for key "${key}":`, e);
             return false;
         }
     },
 
-    setByPriority(key, data, index) {
+    async setByPriority(key, data, index) {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
         const isInvalidKey = !key;
         const isInvalidIndex = typeof index !== 'number' || isNaN(index) || index < 1;
@@ -313,65 +303,70 @@ const KynuxDB_API = {
         if (isInvalidIndex) throw new TypeError(_localeMessages?.errors?.blankNumber || "Index must be a positive number.");
 
         try {
-            if (typeof _currentAdapterInstance.setByPriority !== 'function') {
-                 console.warn(`KynuxDB Warning: Adapter does not support setByPriority.`);
-                 return false;
-            }
-            return _currentAdapterInstance.setByPriority(key, data, index);
+            return await _currentAdapterInstance.setByPriority(key, data, index);
         } catch (e) {
-            console.error(`KynuxDB Error in adapter setByPriority: ${e}`);
+            console.error(`KynuxDB Error during setByPriority operation for key "${key}":`, e);
             return false;
         }
     },
 
-    all() {
+    async all() {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
         try {
-            return _currentAdapterInstance.all();
+            return await _currentAdapterInstance.all();
         } catch (e) {
-             console.error(`KynuxDB Error in adapter all: ${e}`);
+             console.error(`KynuxDB Error during all operation:`, e);
              return {};
         }
     },
 
-    deleteAll() {
+    async deleteAll() {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
          try {
-            return _currentAdapterInstance.deleteAll();
+            return await _currentAdapterInstance.deleteAll();
          } catch (e) {
-             console.error(`KynuxDB Error in adapter deleteAll: ${e}`);
+             console.error(`KynuxDB Error during deleteAll operation:`, e);
              return false;
          }
     },
 
-    importDataFrom(sourceDB) {
+    async importDataFrom(sourceDB) {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
         if (!sourceDB || typeof sourceDB.fetchAll !== 'function') {
              console.error("KynuxDB Error: Invalid sourceDB provided for import. 'fetchAll' method required.");
              return false;
         }
         console.log("Importing to KynuxDB: Started importing data...");
+        let allSourceData;
         try {
-            const allSourceData = sourceDB.fetchAll();
+            allSourceData = await Promise.resolve(sourceDB.fetchAll());
             if (!Array.isArray(allSourceData)) {
                  console.error("KynuxDB Error: sourceDB.fetchAll() did not return an array.");
                  return false;
             }
-            let importCount = 0;
-            allSourceData.forEach((item) => {
-                if (item && typeof item.ID === 'string') {
-                    this.set(item.ID, item.data);
-                    importCount++;
-                } else {
-                    console.warn("KynuxDB Import Warning: Skipping invalid item during import:", item);
-                }
-            });
-            console.log(`Importing to KynuxDB: Finished importing ${importCount} items.`);
-            return true;
-        } catch (error) {
-            console.error("KynuxDB Error during data import:", error);
-            return false;
+        } catch (fetchError) {
+             console.error("KynuxDB Error fetching data from sourceDB:", fetchError);
+             return false;
         }
+
+        let importCount = 0;
+        let errorOccurred = false;
+        for (const item of allSourceData) {
+            if (item && typeof item.ID === 'string') {
+                try {
+                    await this.set(item.ID, item.data);
+                    importCount++;
+                } catch (setError) {
+                    console.error(`KynuxDB Import Error setting key "${item.ID}":`, setError);
+                    errorOccurred = true;
+                }
+            } else {
+                console.warn("KynuxDB Import Warning: Skipping invalid item during import:", item);
+            }
+        }
+
+        console.log(`Importing to KynuxDB: Finished importing ${importCount} items.${errorOccurred ? ' Some errors occurred.' : ''}`);
+        return !errorOccurred;
     }
 };
 

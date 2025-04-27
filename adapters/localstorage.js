@@ -1,192 +1,143 @@
 "use strict";
 
-const { set: setObjectValue, get: getObjectValue, remove: removeObjectValue } = require("../functions/jsondb.js");
+const BaseAdapter = require("./BaseAdapter");
+const { removeEmptyData } = require("../functions/utils.js");
 
-class LocalStorageDB {
+let storageAvailable = false;
+try {
+    if (typeof localStorage !== 'undefined' && localStorage !== null) {
+        const testKey = '__kynuxdb_test__';
+        localStorage.setItem(testKey, testKey);
+        localStorage.removeItem(testKey);
+        storageAvailable = true;
+    }
+} catch (e) {
+    storageAvailable = false;
+    console.warn("KynuxDB Warning: localStorage is not available or accessible in this environment. LocalStorageAdapter will not function.");
+}
+
+
+class LocalStorageDB extends BaseAdapter {
     constructor(options) {
-        this.storageKey = options["dbName"] || "kynuxdb_storage";
+        super(options);
+
+        this.storageKey = this.options["dbName"] || "kynuxdb_storage";
+        this.noBlankData = this.options["noBlankData"] === true;
+
+        if (!storageAvailable) {
+            console.error("KynuxDB Error: localStorage adapter initialized but storage is unavailable.");
+        }
     }
 
-    _readStorage() {
+    _readAllData() {
+        if (!storageAvailable) return {};
         try {
             const rawData = localStorage.getItem(this.storageKey);
             return JSON.parse(rawData || "{}");
         } catch (error) {
             console.error(`KynuxDB localStorage Error reading data for key ${this.storageKey}:`, error);
+             try {
+                localStorage.setItem(this.storageKey, "{}");
+             } catch (resetError) {
+                 console.error(`KynuxDB localStorage Error: Failed to reset corrupted data for key ${this.storageKey}:`, resetError);
+             }
             return {};
         }
     }
 
-    _writeStorage(dataObject) {
+    _writeAllData(dataObject) {
+        if (!storageAvailable) return;
         try {
+            if (this.noBlankData) {
+                removeEmptyData(dataObject);
+            }
             localStorage.setItem(this.storageKey, JSON.stringify(dataObject));
         } catch (error) {
             console.error(`KynuxDB localStorage Error writing data for key ${this.storageKey}:`, error);
         }
     }
 
-    set(key, value) {
-        if (!key) {
-            throw new TypeError("KynuxDB localStorage Error: Key must be provided for set.");
-        }
+    _deleteAllData() {
+        if (!storageAvailable) return false;
+        this._writeAllData({});
+        return true;
+    }
 
-        const storageData = this._readStorage();
-        setObjectValue(key, value, storageData);
-        this._writeStorage(storageData);
+    _getValue(key) {
+        const allData = this._readAllData();
+        return require('../functions/utils.js').get(allData, ...key.split('.'));
+    }
 
+    _setValue(key, value) {
+        const allData = this._readAllData();
+        require('../functions/utils.js').set(key, value, allData);
+        this._writeAllData(allData);
         return value;
     }
 
-    get(key) {
-        if (!key) {
-            throw new TypeError("KynuxDB localStorage Error: Key must be provided for get.");
+    _deleteKey(key) {
+        const allData = this._readAllData();
+        const deleted = require('../functions/utils.js').remove(allData, key);
+        if (deleted) {
+             if (this.noBlankData) {
+                 removeEmptyData(allData);
+             }
+            this._writeAllData(allData);
         }
-        const storageData = this._readStorage();
-        return getObjectValue(storageData, ...key.split("."));
+        return deleted;
     }
 
-    fetch(key) {
-        return this.get(key);
-    }
+     _incrementValue(key, amount) {
+         const currentVal = this._getValue(key);
+         let newValue = amount;
+         if (typeof currentVal === 'number' && !isNaN(currentVal)) {
+             newValue = currentVal + amount;
+         }
+         this._setValue(key, newValue);
+         return newValue;
+     }
 
-    has(key) {
-        if (!key) {
-            throw new TypeError("KynuxDB localStorage Error: Key must be provided for has.");
-        }
-        const storageData = this._readStorage();
-        const value = getObjectValue(storageData, ...key.split("."));
-        return value !== undefined;
-    }
+     _pushValue(key, element) {
+         let currentArray = this._getValue(key);
+         if (!Array.isArray(currentArray)) {
+             currentArray = [];
+         }
+         currentArray.push(element);
+         this._setValue(key, currentArray);
+         return currentArray;
+     }
 
-    delete(key) {
-        if (!key) {
-            throw new TypeError("KynuxDB localStorage Error: Key must be provided for delete.");
-        }
+     _pullValue(key, elementToRemove) {
+         let currentArray = this._getValue(key);
+         if (!Array.isArray(currentArray)) {
+             return undefined;
+         }
+         const filteredArray = currentArray.filter(item => item !== elementToRemove);
+         this._setValue(key, filteredArray);
+         return filteredArray;
+     }
 
-        const storageData = this._readStorage();
+     _deleteFromArray(key, index) {
+         let currentList = this._getValue(key);
+         if (!Array.isArray(currentList) || currentList.length < index) {
+             return false;
+         }
+         const modifiedList = currentList.filter((_, idx) => idx !== (index - 1));
+         this._setValue(key, modifiedList);
+         return modifiedList;
+     }
 
-        if (getObjectValue(storageData, ...key.split(".")) === undefined) {
-            return false;
-        }
-
-        removeObjectValue(storageData, key);
-        this._writeStorage(storageData);
-        return true;
-    }
-
-    add(key, amount) {
-        if (!key) {
-            throw new TypeError("KynuxDB localStorage Error: Key must be provided for add.");
-        }
-        if (typeof amount !== 'number' || isNaN(amount)) {
-            throw new TypeError("KynuxDB localStorage Error: Amount must be a valid number.");
-        }
-
-        const currentValue = this.get(key);
-        let resultValue = amount;
-
-        if (typeof currentValue === 'number' && !isNaN(currentValue)) {
-            resultValue = currentValue + amount;
-        }
-
-        this.set(key, resultValue);
-        return resultValue;
-    }
-
-    subtract(key, amount) {
-         if (!key) {
-            throw new TypeError("KynuxDB localStorage Error: Key must be provided for subtract.");
-        }
-        if (typeof amount !== 'number' || isNaN(amount)) {
-            throw new TypeError("KynuxDB localStorage Error: Amount must be a valid number.");
-        }
-        return this.add(key, -amount);
-    }
-
-
-    push(key, element) {
-        if (!key) {
-            throw new TypeError("KynuxDB localStorage Error: Key must be provided for push.");
-        }
-
-        const currentData = this.get(key);
-        let currentArray = [];
-
-        if (Array.isArray(currentData)) {
-            currentArray = currentData;
-        }
-
-        currentArray.push(element);
-        this.set(key, currentArray);
-        return currentArray;
-    }
-
-    unpush(key, elementToRemove) {
-        if (!key) {
-            throw new TypeError("KynuxDB localStorage Error: Key must be provided for unpush.");
-        }
-
-        const currentData = this.get(key);
-
-        if (!Array.isArray(currentData)) {
-            return currentData;
-        }
-
-        const resultArray = currentData.filter(item => item !== elementToRemove);
-        this.set(key, resultArray);
-        return resultArray;
-    }
-
-    delByPriority(key, index) {
-        if (!key) {
-            throw new TypeError("KynuxDB localStorage Error: Key must be provided for delByPriority.");
-        }
-        if (typeof index !== 'number' || isNaN(index) || index < 1) {
-            throw new TypeError("KynuxDB localStorage Error: Priority index must be a positive number.");
-        }
-
-        const currentList = this.get(key);
-
-        if (!Array.isArray(currentList) || currentList.length < index) {
-            return false;
-        }
-
-        const updatedList = currentList.filter((_, listIndex) => listIndex !== (index - 1));
-
-        this.set(key, updatedList);
-        return updatedList;
-    }
-
-    setByPriority(key, data, index) {
-        if (!key) {
-            throw new TypeError("KynuxDB localStorage Error: Key must be provided for setByPriority.");
-        }
-         if (typeof index !== 'number' || isNaN(index) || index < 1) {
-            throw new TypeError("KynuxDB localStorage Error: Priority index must be a positive number.");
-        }
-
-        const currentList = this.get(key);
-
-        if (!Array.isArray(currentList) || currentList.length < index) {
-            return false;
-        }
-
-        const updatedList = currentList.map((item, listIndex) =>
-            (listIndex === (index - 1)) ? data : item
-        );
-
-        this.set(key, updatedList);
-        return updatedList;
-    }
-
-    all() {
-        return this._readStorage();
-    }
-
-    deleteAll() {
-        this._writeStorage({});
-        return true;
-    }
+     _setInArray(key, data, index) {
+         let currentList = this._getValue(key);
+         if (!Array.isArray(currentList) || currentList.length < index) {
+             return false;
+         }
+         const modifiedList = currentList.map((currentItem, idx) => {
+             return (idx === (index - 1)) ? data : currentItem;
+         });
+         this._setValue(key, modifiedList);
+         return modifiedList;
+     }
 }
 
 module.exports = LocalStorageDB;

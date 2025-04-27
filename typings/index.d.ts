@@ -13,20 +13,20 @@ declare const KynuxDB: {
     configureFolder:(_folderPath:string) => true;
     configureFileName:(_fileName:string) => true;
 
-    set: (_key: string, value: unknown) => unknown;
-    delete: (_key: string) => boolean;
-    fetch: (_key: string) => unknown;
-    has: (_key: string) => boolean;
-    get: (_key: string) => unknown;
-    push: (_key: string, value: unknown) => unknown[];
-    unpush: (_key: string, value: unknown) => unknown[];
-    add: (_key: string, value: number) => number;
-    subtract: (_key: string, value: number) => number;
-    setByPriority: (_key: string, value: unknown) => unknown;
-    delByPriority: (_key: string, value: unknown) => unknown;
-    all: () => Record<string, unknown>;
-    deleteAll: () => boolean;
-    importDataFrom: (_sourceDB: DataSource) => boolean;
+    set: (_key: string, value: unknown) => Promise<unknown>;
+    delete: (_key: string) => Promise<boolean>;
+    fetch: (_key: string) => Promise<unknown>;
+    has: (_key: string) => Promise<boolean>;
+    get: (_key: string) => Promise<unknown>;
+    push: (_key: string, value: unknown) => Promise<unknown[]>;
+    unpush: (_key: string, value: unknown) => Promise<unknown[] | undefined>;
+    add: (_key: string, value: number) => Promise<number>;
+    subtract: (_key: string, value: number) => Promise<number>;
+    setByPriority: (_key: string, value: unknown) => Promise<unknown[] | boolean>;
+    delByPriority: (_key: string, value: unknown) => Promise<unknown[] | boolean>;
+    all: () => Promise<Record<string, unknown>>;
+    deleteAll: () => Promise<boolean>;
+    importDataFrom: (_sourceDB: DataSource) => Promise<boolean>;
 
 }
 
