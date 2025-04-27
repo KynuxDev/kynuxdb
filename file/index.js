@@ -252,15 +252,13 @@ const KynuxDB_API = {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
         if (!key) throw new TypeError(_localeMessages?.errors?.blankName || "Key is required.");
         if (typeof amount !== 'number' || isNaN(amount)) throw new TypeError(_localeMessages?.errors?.blankNumber || "Amount must be a number.");
+
         try {
-             if (typeof _currentAdapterInstance.subtract === 'function') {
-                 return _currentAdapterInstance.subtract(key, amount);
-             } else {
-                 return _currentAdapterInstance.add(key, -amount);
-             }
+            const subtractFn = _currentAdapterInstance.subtract || ((k, a) => _currentAdapterInstance.add(k, -a));
+            return subtractFn.call(_currentAdapterInstance, key, amount);
         } catch (e) {
-             console.error(`KynuxDB Error in adapter subtract: ${e}`);
-             throw e;
+            console.error(`KynuxDB Error in adapter subtract: ${e}`);
+            throw e;
         }
     },
 
@@ -288,26 +286,42 @@ const KynuxDB_API = {
 
     delByPriority(key, index) {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
-        if (!key) throw new TypeError(_localeMessages?.errors?.blankName || "Key is required.");
-        if (typeof index !== 'number' || isNaN(index) || index < 1) throw new TypeError(_localeMessages?.errors?.blankNumber || "Index must be a positive number.");
+        const isInvalidKey = !key;
+        const isInvalidIndex = typeof index !== 'number' || isNaN(index) || index < 1;
+
+        if (isInvalidKey) throw new TypeError(_localeMessages?.errors?.blankName || "Key is required.");
+        if (isInvalidIndex) throw new TypeError(_localeMessages?.errors?.blankNumber || "Index must be a positive number.");
+
         try {
+            if (typeof _currentAdapterInstance.delByPriority !== 'function') {
+                 console.warn(`KynuxDB Warning: Adapter does not support delByPriority.`);
+                 return false;
+            }
             return _currentAdapterInstance.delByPriority(key, index);
         } catch (e) {
-             console.error(`KynuxDB Error in adapter delByPriority: ${e}`);
-             return false;
+            console.error(`KynuxDB Error in adapter delByPriority: ${e}`);
+            return false;
         }
     },
 
     setByPriority(key, data, index) {
         if (!_currentAdapterInstance) this._refreshAdapterConfig();
-        if (!key) throw new TypeError(_localeMessages?.errors?.blankName || "Key is required.");
-        if (typeof index !== 'number' || isNaN(index) || index < 1) throw new TypeError(_localeMessages?.errors?.blankNumber || "Index must be a positive number.");
-         try {
+        const isInvalidKey = !key;
+        const isInvalidIndex = typeof index !== 'number' || isNaN(index) || index < 1;
+
+        if (isInvalidKey) throw new TypeError(_localeMessages?.errors?.blankName || "Key is required.");
+        if (isInvalidIndex) throw new TypeError(_localeMessages?.errors?.blankNumber || "Index must be a positive number.");
+
+        try {
+            if (typeof _currentAdapterInstance.setByPriority !== 'function') {
+                 console.warn(`KynuxDB Warning: Adapter does not support setByPriority.`);
+                 return false;
+            }
             return _currentAdapterInstance.setByPriority(key, data, index);
-         } catch (e) {
-             console.error(`KynuxDB Error in adapter setByPriority: ${e}`);
-             return false;
-         }
+        } catch (e) {
+            console.error(`KynuxDB Error in adapter setByPriority: ${e}`);
+            return false;
+        }
     },
 
     all() {

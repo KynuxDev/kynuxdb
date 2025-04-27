@@ -35,28 +35,36 @@ module.exports.get = function(sourceObj, ...pathKeys) {
   return currentValue;
 };
 
+const findParentAndKey = (obj, path) => {
+    if (!obj || typeof path !== 'string' || path === '') {
+        return null;
+    }
+    const keys = path.split(".");
+    const lastKey = keys.pop();
+    let parent = obj;
+
+    for (const key of keys) {
+        if (parent && typeof parent === 'object' && Object.prototype.hasOwnProperty.call(parent, key)) {
+            parent = parent[key];
+        } else {
+            return null;
+        }
+    }
+
+    if (parent && typeof parent === 'object') {
+         return { parent, key: lastKey };
+    }
+    return null;
+};
+
+
 module.exports.remove = function(targetObj, dotPath) {
-    if (!targetObj || typeof dotPath !== 'string' || dotPath === '') {
-      return;
+    const target = findParentAndKey(targetObj, dotPath);
+    if (target && Object.prototype.hasOwnProperty.call(target.parent, target.key)) {
+        delete target.parent[target.key];
+        return true;
     }
-
-    const pathSegments = dotPath.split(".");
-    const lastSegmentIndex = pathSegments.length - 1;
-
-    let parentLevel = targetObj;
-
-    for (let i = 0; i < lastSegmentIndex; i++) {
-      const segment = pathSegments[i];
-      if (parentLevel && typeof parentLevel === 'object' && Object.prototype.hasOwnProperty.call(parentLevel, segment)) {
-        parentLevel = parentLevel[segment];
-      } else {
-        return;
-      }
-    }
-
-    if (parentLevel && typeof parentLevel === 'object') {
-      delete parentLevel[pathSegments[lastSegmentIndex]];
-    }
+    return false;
 };
 
 module.exports.initializeDbFile = function(dbFolderPath, dbFileName) {

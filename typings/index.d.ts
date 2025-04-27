@@ -1,32 +1,32 @@
 interface DataSource {
     target?: string | null;
     table?: string;
-    fetchAll: () => Array<{ ID: string; data: any }>;
+    fetchAll: () => { ID: string; data: unknown }[];
 }
 
 declare const KynuxDB: {
 
-    configureLanguage:(language:"tr"|"en") => string;
-    configureReadableFormat:(readable:boolean) => boolean;
-    configureAutoPrune:(noBlankData:boolean) => boolean;
-    configureAdapter:(adapter:"jsondb"|"localstorage"|"mongo"|"yamldb", options?: object) => object | boolean; // Returns instance for mongo
-    configureFolder:(folderPath:string) => true;
-    configureFileName:(fileName:string) => true;
+    configureLanguage:(_language:"tr"|"en") => string;
+    configureReadableFormat:(_readable:boolean) => boolean;
+    configureAutoPrune:(_noBlankData:boolean) => boolean;
+    configureAdapter:(_adapter:"jsondb"|"localstorage"|"mongo"|"yamldb", options?: object) => object | boolean;
+    configureFolder:(_folderPath:string) => true;
+    configureFileName:(_fileName:string) => true;
 
-    set: (key: string, value: any) => any;
-    delete: (key: string) => boolean; // Delete takes only key
-    fetch: (key: string) => any;
-    has: (key: string) => boolean;
-    get: (key: string) => any;
-    push: (key: string, value: any) => any[];
-    unpush: (key: string, value: any) => any[];
-    add: (key: string, value: number) => number;
-    subtract: (key: string, value: number) => number;
-    setByPriority: (key: string, value: any) => any;
-    delByPriority: (key: string, value: any) => any;
-    all: () => { [key: string]: any };
+    set: (_key: string, value: unknown) => unknown;
+    delete: (_key: string) => boolean;
+    fetch: (_key: string) => unknown;
+    has: (_key: string) => boolean;
+    get: (_key: string) => unknown;
+    push: (_key: string, value: unknown) => unknown[];
+    unpush: (_key: string, value: unknown) => unknown[];
+    add: (_key: string, value: number) => number;
+    subtract: (_key: string, value: number) => number;
+    setByPriority: (_key: string, value: unknown) => unknown;
+    delByPriority: (_key: string, value: unknown) => unknown;
+    all: () => Record<string, unknown>;
     deleteAll: () => boolean;
-    importDataFrom: (sourceDB: DataSource) => boolean;
+    importDataFrom: (_sourceDB: DataSource) => boolean;
 
 }
 
