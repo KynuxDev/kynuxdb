@@ -1,4 +1,4 @@
-,# KynuxDB
+# KynuxDB
 
 [![Downloads](https://img.shields.io/npm/d18m/%40kynuxcloud%2Fkynuxdb?style=flat-square)](https://www.npmjs.com/package/@kynuxcloud/kynuxdb)
 [![License](https://img.shields.io/npm/l/%40kynuxcloud%2Fkynuxdb?style=flat-square)](https://github.com/kynuxdev/kynuxdb/blob/main/LICENSE)
