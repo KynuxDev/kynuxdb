@@ -1,7 +1,6 @@
 # KynuxDB
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/12341481f7db44c291844ab1d97cf602)](https://app.codacy.com/gh/kynuxdev/kynuxdb/dashboard?utm_source=gh&utm_medium=referral&utm_content=kynuxdev/kynuxdb&utm_campaign=Badge_Grade)
-[![Downloads](https://img.shields.io/npm/dt/kynuxdb.svg?style=flat-square)](https://www.npmjs.com/package/kynuxdb)
+[![Downloads](https://img.shields.io/npm/dt/kynuxdb.svg?style=flat-square)](https://www.npmjs.com/package/@kynuxcloud/kynuxdb)
 [![License](https://img.shields.io/npm/l/kynuxdb.svg?style=flat-square)](https://github.com/kynuxdev/kynuxdb/blob/main/LICENSE)
 
 KynuxDB, Node.js uygulamaları için esnek ve kullanımı kolay bir veri depolama modülüdür. Farklı depolama adaptörlerini destekler.
