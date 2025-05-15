@@ -5,7 +5,7 @@
   "bugs": {
     "url": "https://github.com/KynuxDev/kynuxdb/issues"
   },
-  "bundleDependencies": false,
+  "bundleDependencies": [],
   "deprecated": false,
   "description": "Çoklu adaptör destekli (JSON, YAML, MongoDB, LocalStorage) esnek ve kullanımı kolay Node.js veritabanı modülü.",
   "homepage": "https://github.com/KynuxDev/kynuxdb#readme",
@@ -35,5 +35,5 @@
     "type": "git",
     "url": "git+https://github.com/KynuxDev/kynuxdb.git"
   },
-  "version": "2.0.0"
+  "version": "2.0.1"
 }
