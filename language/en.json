@@ -3,6 +3,9 @@
         "blankName": "[KynuxDB] Please give me a database name.",
         "blankData": "[KynuxDB] Please give me a data.",
         "blankNumber": "[KynuxDB] Please give me a number.",
-        "oldVersion": "[KynuxDB] It seems like you are using an outdated version of KynuxDB. Use 'npm update kynuxdb' to update module."
+        "oldVersion": "[KynuxDB] It seems like you are using an outdated version of KynuxDB. Use 'npm update kynuxdb' to update module.",
+        "updatePrompt": "[KynuxDB Critical Update] You are using version %currentVersion%. The latest version is %latestVersion%. Please update by running: npm install @kynuxcloud/kynuxdb@latest",
+        "blankQuery": "[KynuxDB] Query object is required for find operation.",
+        "blankSession": "[KynuxDB] Session object is required for this transaction operation."
     }
 }

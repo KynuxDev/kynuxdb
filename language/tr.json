@@ -3,6 +3,9 @@
         "blankName": "[KynuxDB] Verinin adını gir.",
         "blankData": "[KynuxDB] Ayarlanacak veriyi gir.",
         "blankNumber": "[KynuxDB] Bir sayı gir.",
-        "oldVersion": "[KynuxDB] Görüşüne göre KynuxDB'nin eski bir sürümünü kullanıyorsun. Modülü güncellemek için 'npm update kynuxdb' kodunu kullan. Discord'uma katıl: https://discord.gg/h8XJYVDyKN"
+        "oldVersion": "[KynuxDB] Görüşüne göre KynuxDB'nin eski bir sürümünü kullanıyorsun. Modülü güncellemek için 'npm update kynuxdb' kodunu kullan. Discord'uma katıl: https://discord.gg/3QXrqzDfu3",
+        "updatePrompt": "[KynuxDB Kritik Güncelleme] %currentVersion% sürümünü kullanıyorsunuz. En son sürüm %latestVersion%. Lütfen şu komutla güncelleyin: npm install @kynuxcloud/kynuxdb@latest",
+        "blankQuery": "[KynuxDB] Bulma işlemi için sorgu nesnesi gereklidir.",
+        "blankSession": "[KynuxDB] Bu işlem (transaction) operasyonu için oturum (session) nesnesi gereklidir."
     }
 }

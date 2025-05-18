@@ -5,7 +5,6 @@
   "bugs": {
     "url": "https://github.com/KynuxDev/kynuxdb/issues"
   },
-  "bundleDependencies": [],
   "deprecated": false,
   "description": "Çoklu adaptör destekli (JSON, YAML, MongoDB, LocalStorage) esnek ve kullanımı kolay Node.js veritabanı modülü.",
   "homepage": "https://github.com/KynuxDev/kynuxdb#readme",
@@ -35,5 +34,22 @@
     "type": "git",
     "url": "git+https://github.com/KynuxDev/kynuxdb.git"
   },
-  "version": "2.0.1"
+  "scripts": {
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "format": "prettier --write \"**/*.js\"",
+    "benchmark": "node benchmarks/basic_operations.js"
+  },
+  "version": "3.0.1",
+  "devDependencies": {
+    "benchmark": "^2.1.4",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.0",
+    "prettier": "^3.5.3"
+  },
+  "optionalDependencies": {
+    "yaml": "^2.0.0",
+    "mongoose": "^8.0.0"
+  }
 }
