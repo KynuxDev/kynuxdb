@@ -59,32 +59,43 @@ function _loadAdapter(adapterName) {
 function _checkVersion() {
   try {
     if (!packageInfo) packageInfo = require('../package.json');
-    fetch('https://registry.npmjs.org/kynuxdb/latest')
-      .then((res) => (res.ok ? res.json() : Promise.reject('Failed to fetch')))
-      .then((data) => {
-        if (data && data.version && packageInfo.version !== data.version) {
-          const currentVersion = packageInfo.version;
-          const latestVersion = data.version;
-          let message =
-            _localeMessages?.errors?.updatePrompt ||
-            `[KynuxDB Critical Update] You are using version ${currentVersion}. The latest version is ${latestVersion}. Please update by running: npm install @kynuxcloud/kynuxdb@latest`;
-          message = message
-            .replace('%currentVersion%', currentVersion)
-            .replace('%latestVersion%', latestVersion);
-          console.warn(message);
+    const https = require('https');
+    const url = 'https://registry.npmjs.org/@kynuxcloud/kynuxdb/latest';
+    
+    const req = https.get(url, (res) => {
+      let data = '';
+      res.on('data', (chunk) => data += chunk);
+      res.on('end', () => {
+        try {
+          const jsonData = JSON.parse(data);
+          if (jsonData && jsonData.version && packageInfo.version !== jsonData.version) {
+            const currentVersion = packageInfo.version;
+            const latestVersion = jsonData.version;
+            let message =
+              _localeMessages?.errors?.updatePrompt ||
+              `[KynuxDB Critical Update] You are using version ${currentVersion}. The latest version is ${latestVersion}. Please update by running: npm install @kynuxcloud/kynuxdb@latest`;
+            message = message
+              .replace('%currentVersion%', currentVersion)
+              .replace('%latestVersion%', latestVersion);
+            console.warn(message);
+          }
+        } catch (parseError) {
+          console.warn('KynuxDB Warning: Could not parse version data.');
         }
-      })
-      .catch((err) => {
-        console.warn(
-          'KynuxDB Warning: Could not check for latest version.',
-          err
-        );
       });
+    });
+
+    req.on('error', () => {
+      console.warn('KynuxDB Warning: Could not check for latest version.');
+    });
+
+    req.setTimeout(5000, () => {
+      req.destroy();
+      console.warn('KynuxDB Warning: Version check timed out.');
+    });
+
   } catch (error) {
-    console.warn(
-      'KynuxDB Warning: Could not read package.json for version check.',
-      error
-    );
+    console.warn('KynuxDB Warning: Could not read package.json for version check.');
   }
 }
 
